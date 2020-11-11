@@ -10,8 +10,9 @@ import (
 )
 
 // Verifie que le temps ntp et local ne s'ecartent pas plus de 5 sec.
+// exit 1 if ntp skew > 5secs, verbose display diffs
 func main() {
-	// use import "github.com/beevik/ntp"
+	// ntp lib use: import "github.com/beevik/ntp"
 	ntpServer := flag.String("server", "ntp.uvsq.fr", "NTP server")
 	verbose := flag.Bool("v", false, "verbose mode")
 	flag.Parse()
@@ -25,8 +26,8 @@ func main() {
 
 	if *verbose {
 		fmt.Printf("Getting Ntp time from %s\n", *ntpServer)
-		fmt.Printf("Ntp time : \t%v\n", ntpTime.Format(time.UnixDate))
-		fmt.Printf("Local time : \t%v\n", time.Now().Local().Format(time.UnixDate))
+		fmt.Printf("Ntp time\t: %v\n", ntpTime.Format(time.UnixDate))
+		fmt.Printf("Local time\t: %v\n", time.Now().Local().Format(time.UnixDate))
 		fmt.Printf("Delta is %v \n", delta.Round(time.Second))
 	}
 
@@ -37,4 +38,3 @@ func main() {
 	}
 
 }
-

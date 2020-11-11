@@ -15,8 +15,9 @@ clean:
 	@rm ${CLEANLIST}
 	
 
-link:	${NAME}	
-	ln -s ${NAME} ${NAME}-${TAG}
 
 check:  ${NAME} Makefile
 	 @./${NAME} ${OPTIONS} 
+
+upx:	${NAME}
+	goupx ${NAME}
