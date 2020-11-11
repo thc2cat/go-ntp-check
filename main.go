@@ -16,19 +16,25 @@ func main() {
 	ntpServer := flag.String("server", "ntp.uvsq.fr", "NTP server")
 	verbose := flag.Bool("v", false, "verbose mode")
 	flag.Parse()
+
 	ntpTime, err := ntp.Time(*ntpServer)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	delta := ntpTime.Sub(time.Now())
+	now := time.Now()
+	delta := ntpTime.Sub(now)
 
 	if *verbose {
 		fmt.Printf("Getting Ntp time from %s\n", *ntpServer)
 		fmt.Printf("Ntp time\t: %v\n", ntpTime.Format(time.UnixDate))
-		fmt.Printf("Local time\t: %v\n", time.Now().Local().Format(time.UnixDate))
-		fmt.Printf("Delta is %v \n", delta.Round(time.Second))
+		fmt.Printf("Local time\t: %v\n", now.Local().Format(time.UnixDate))
+		fmt.Printf("Delta is ")
+		if delta < time.Second {
+			fmt.Printf("%v \n", delta.Round(time.Millisecond))
+		} else {
+			fmt.Printf("%v \n", delta.Round(time.Second))
+		}
 	}
 
 	if delta > 5*time.Second {
