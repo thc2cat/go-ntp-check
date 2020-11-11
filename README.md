@@ -1,15 +1,15 @@
 
-# README concernant l'implémentation locale à l'UVSQ
+# README les modifications
 
-L'original du code est accessible sur 
+La base du code est accessible sur 
 https://www.socketloop.com/tutorials/golang-get-current-time-from-the-internet-time-server-ntp-example
 
 Le code a été légèrement modifié afin de changer :
  - le code de retour,
- - le erveur
+ - le serveur
  - le mode verbose de verification
 
-- ntpcheck : le binaire dans https://git.dsi.uvsq.fr/thiecail/ntpcheck
+- ntpcheck : le binaire issu de https://git.dsi.uvsq.fr/thiecail/ntpcheck
 
 ## Exemple de sortie : 
 ```
@@ -30,5 +30,4 @@ check program ntpcheck with path "/local/sbin/ntpcheck"
         if status > 0 then alert
 
 ```
-A noter que si le code de retour via monit ne change pas (comprendre pas de corrections), l'alerte ne sera pas mise à jour. Donc, pour un problème persistant, il vaut mieux déplacer le service dans le fichier exclude.txt avec un commentaire.
-
+A noter que si le code de retour via monit ne change pas (comprendre pas de corrections), l'alerte ne sera pas mise à jour. 
