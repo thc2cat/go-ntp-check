@@ -1,4 +1,3 @@
-
 # README les modifications
 
 La base du code est accessible sur 
@@ -23,7 +22,7 @@ Delta is 0s
 
 ## Vérification quotidienne via Monit : 
 ```
-# cat  /etc/monit.d/go-check-certs
+# cat  /etc/monit.d/ntpcheck
 
 check program ntpcheck with path "/local/sbin/ntpcheck"
         every "30 * * * 1-5"
