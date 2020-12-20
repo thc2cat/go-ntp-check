@@ -15,8 +15,7 @@ clean:
 	@rm ${CLEANLIST}
 	
 
-
-check:  ${NAME} Makefile
+test:  ${NAME} Makefile
 	 @./${NAME} ${OPTIONS} 
 
 upx:	${NAME}
