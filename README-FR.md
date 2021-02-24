@@ -8,8 +8,6 @@ Le code a été légèrement modifié afin de changer :
  - le serveur
  - le mode verbose de verification
 
-- ntpcheck : le binaire issu de https://git.dsi.uvsq.fr/thiecail/ntpcheck
-
 ## Exemple de sortie : 
 ```shell
 # go run .\main.go -v -server time.windows.com
