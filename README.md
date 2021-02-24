@@ -1,16 +1,22 @@
-# README les modifications
+# go-ntp-check
 
-La base du code est accessible sur 
+go-ntp-check is a ntp cli used to automatically check ntp deviation between local host and a ntp server.
+
+## Code base 
+Code based on 
 https://www.socketloop.com/tutorials/golang-get-current-time-from-the-internet-time-server-ntp-example
 
-Le code a été légèrement modifié afin de changer :
- - le code de retour,
- - le serveur
- - le mode verbose de verification
+Code was modified in order to change 
+- code return
+- server
+- verbose mode 
 
-- ntpcheck : le binaire issu de https://git.dsi.uvsq.fr/thiecail/ntpcheck
+## Build
+```shell
+# go build # as usual for golang 
+```
 
-## Exemple de sortie : 
+## Basic output example : 
 ```
 PS C:\dev\src\projects\ntpcheck> go run .\main.go -v -server time.windows.com
 Getting Ntp time from time.windows.com
@@ -20,7 +26,7 @@ Delta is 0s
 ```
 
 
-## Vérification quotidienne via Monit : 
+## Automating checks via via Monit : 
 ```
 # cat  /etc/monit.d/ntpcheck
 
@@ -29,4 +35,5 @@ check program ntpcheck with path "/local/sbin/ntpcheck"
         if status > 0 then alert
 
 ```
-A noter que si le code de retour via monit ne change pas (comprendre pas de corrections), l'alerte ne sera pas mise à jour. 
+
+If you don't correct  (return code), monit alerts won't change !
