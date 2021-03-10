@@ -17,6 +17,9 @@ func main() {
 	verbose := flag.Bool("v", false, "verbose mode")
 	flag.Parse()
 
+	_, _ = ntp.Time(*ntpServer)
+	_ = time.Now()
+
 	ntpTime, err := ntp.Time(*ntpServer)
 	if err != nil {
 		fmt.Println(err)
@@ -33,7 +36,8 @@ func main() {
 	}
 
 	if delta > 5*time.Second {
-		fmt.Printf("Deviation Error : Clock skew from ntp.uvsq.fr is %v \n",
+		fmt.Printf("Deviation Error : Clock skew from %s is %v \n",
+			*ntpServer,
 			delta.Round(time.Second))
 		os.Exit(1)
 	}
