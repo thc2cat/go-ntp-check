@@ -9,8 +9,9 @@ import (
 	"github.com/beevik/ntp"
 )
 
-// Verifie que le temps ntp et local ne s'ecartent pas plus de 5 sec.
-// exit 1 if ntp skew > 5secs, verbose display diffs
+// Verify that local time does not differs much from ntp server
+// exit 1 if ntp skew > 5secs, verbose display time diffs
+
 func main() {
 	// ntp lib use: import "github.com/beevik/ntp"
 	ntpServer := flag.String("server", "time.cloudflare.com", "NTP server")
