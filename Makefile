@@ -8,7 +8,7 @@ CLEANLIST=${NAME} ${NAME}-${TAG} ${NAME}.exe
 all:	${NAME}  
 
 ${NAME}:  ${SOURCES}
-	go build
+	go build -ldflags '-w -s -X main.Version=NTPCheck-${TAG}' 
 
 clean:
 	@touch ${CLEANLIST}
@@ -16,7 +16,7 @@ clean:
 	
 
 test:  ${NAME} Makefile
-	 @./${NAME} ${OPTIONS} 
+	 ./${NAME} ${OPTIONS} 
 
 upx:	${NAME}
 	goupx ${NAME}

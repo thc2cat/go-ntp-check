@@ -9,6 +9,8 @@ import (
 	"github.com/beevik/ntp"
 )
 
+var Version = "NTPCheck" // Defined via Makefile and git tag
+
 // Verify that local time does not differs much from ntp server
 // exit 1 if ntp skew > 5secs, verbose display time diffs
 
@@ -16,6 +18,9 @@ func main() {
 	// ntp lib use: import "github.com/beevik/ntp"
 	ntpServer := flag.String("server", "time.cloudflare.com", "NTP server")
 	verbose := flag.Bool("v", false, "verbose mode")
+	scale := flag.String("scale", "s", "skew scale [s|ms]")
+	deltat := flag.Int("delta", 5, "max skew in scale units")
+
 	flag.Parse()
 
 	_, _ = ntp.Time(*ntpServer)
@@ -29,17 +34,25 @@ func main() {
 	now := time.Now()
 	delta := ntpTime.Sub(now)
 
-	if *verbose {
-		fmt.Printf("Getting Ntp time from %s\n", *ntpServer)
-		fmt.Printf("Ntp time\t: %v\n", ntpTime.Format(time.UnixDate))
-		fmt.Printf("Local time\t: %v\n", now.Local().Format(time.UnixDate))
-		fmt.Printf("Delta is %v \n", delta.Round(time.Millisecond))
+	var scaleunit time.Duration
+	switch *scale {
+	case "ms":
+		scaleunit = time.Millisecond
+	default:
+		scaleunit = time.Second
 	}
 
-	if delta > 5*time.Second {
-		fmt.Printf("Deviation Error : Clock skew from %s is %v \n",
+	if *verbose {
+		fmt.Printf("%s getting Ntp time from %s\n", Version, *ntpServer)
+		fmt.Printf("Ntp time\t: %v\n", ntpTime.Format(time.UnixDate))
+		fmt.Printf("Local time\t: %v\n", now.Local().Format(time.UnixDate))
+		fmt.Printf("Delta max set to %d%s, current is %v\n", *deltat, *scale, delta.Round(time.Millisecond))
+	}
+
+	if delta > (time.Duration)(*deltat)*scaleunit {
+		fmt.Printf("Local clock is ntp-desynchronised from %s : delta is %v \n",
 			*ntpServer,
-			delta.Round(time.Second))
+			delta.Round(time.Millisecond))
 		os.Exit(1)
 	}
 }
