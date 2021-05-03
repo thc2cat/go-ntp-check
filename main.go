@@ -19,7 +19,7 @@ func main() {
 	ntpServer := flag.String("server", "time.cloudflare.com", "NTP server")
 	verbose := flag.Bool("v", false, "verbose mode")
 	scale := flag.String("scale", "s", "skew scale [s|ms]")
-	deltat := flag.Int("delta", 5, "max skew in scale units")
+	deltat := flag.Int("delta", 2, "max skew in scale units")
 
 	flag.Parse()
 
@@ -39,6 +39,7 @@ func main() {
 	case "ms":
 		scaleunit = time.Millisecond
 	default:
+		*scale = "s"
 		scaleunit = time.Second
 	}
 
