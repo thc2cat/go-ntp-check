@@ -50,10 +50,18 @@ func main() {
 		fmt.Printf("Delta max set to %d%s, current is %v\n", *deltat, *scale, delta.Round(time.Millisecond))
 	}
 
-	if delta > (time.Duration)(*deltat)*scaleunit {
+	if Abs(delta) > (time.Duration)(*deltat)*scaleunit {
 		fmt.Printf("Local clock is ntp-desynchronised from %s : delta is %v \n",
 			*ntpServer,
 			delta.Round(time.Millisecond))
 		os.Exit(1)
 	}
+}
+
+// Abs returns the absolute value of x.
+func Abs(x time.Duration) time.Duration {
+	if x < 0 {
+		return -x
+	}
+	return x
 }
