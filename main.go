@@ -9,7 +9,7 @@ import (
 	"github.com/beevik/ntp"
 )
 
-var Version = "NTPCheck" // Defined via Makefile and git tag
+var Version = "go-ntp-check-v0.3" // Also defined via Makefile and git tag
 
 // Verify that local time does not differs much from ntp server
 // exit 1 if ntp skew > 5secs, verbose display time diffs
@@ -51,10 +51,14 @@ func main() {
 	}
 
 	if Abs(delta) > (time.Duration)(*deltat)*scaleunit {
-		fmt.Printf("Local clock is ntp-desynchronised from %s : delta is %v \n",
+		fmt.Printf("Local clock is ntp-desynchronised from %s : delta is %v \nS",
 			*ntpServer,
 			delta.Round(time.Millisecond))
 		os.Exit(1)
+	} else {
+		if *verbose {
+			fmt.Printf("Status : OK\n")
+		}
 	}
 }
 
@@ -65,3 +69,9 @@ func Abs(x time.Duration) time.Duration {
 	}
 	return x
 }
+
+// Faster abs http://cavaliercoder.com/blog/optimized-abs-for-int64-in-go.html
+// func abs(n int64) int64 {
+// 	y := n >> 63
+// 	return (n ^ y) - y
+// }
