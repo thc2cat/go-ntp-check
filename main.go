@@ -9,10 +9,13 @@ import (
 	"github.com/beevik/ntp"
 )
 
-var Version = "go-ntp-check-v0.3" // Also defined via Makefile and git tag
+var Version = "go-ntp-check-v0.4" // Also defined via Makefile and git tag
+
+// History :
+// v0.4 : using generics Abs
 
 // Verify that local time does not differs much from ntp server
-// exit 1 if ntp skew > 5secs, verbose display time diffs
+// exit 1 if ntp skew >  delta*scale values, verbose display time diffs
 
 func main() {
 	// ntp lib use: import "github.com/beevik/ntp"
@@ -62,12 +65,18 @@ func main() {
 	}
 }
 
+// Testing generics Abs
+type number interface {
+	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~float32 | ~float64
+}
+
 // Abs returns the absolute value of x.
-func Abs(x time.Duration) time.Duration {
+func Abs[T number](x T) T {
 	if x < 0 {
 		return -x
 	}
 	return x
+
 }
 
 // Faster abs http://cavaliercoder.com/blog/optimized-abs-for-int64-in-go.html
